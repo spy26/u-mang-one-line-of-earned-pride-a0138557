@@ -10,6 +10,11 @@ import { join } from "node:path";
 
 const line =
   "The carpenter who ruined twelve chairs learning the dovetail set the thirteenth down in the customer's kitchen — and it did not wobble.";
+// The gate refuses anything outside 1–240 characters, so fail loudly
+// rather than writing an invalid entry.
+if (line.length < 1 || line.length > 240) {
+  throw new Error(`entry line is ${line.length} characters, must be 1–240`);
+}
 const out = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(out, { recursive: true });
 writeFileSync(join(out, "entry.txt"), line + "\n", "utf8");
